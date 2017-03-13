@@ -3,6 +3,8 @@
   (:use [theater.core]))
 
 (facts "about suggesting seats"
-       (fact "on an two seats empty teather it suggests these seats"
+       (fact "on an empty teather when party size equals theater size suggests all seats"
              (let [theater [{:A [0 0]}]]
-               (suggest theater 2)) => [{:A 1} {:A 2}]))
+               (suggest theater 2)) => [{:A 1} {:A 2}]
+             (let [theater [{:A [0 0 0]}]]
+               (suggest theater 3)) => [{:A 1} {:A 2} {:A 3}]))

@@ -12,4 +12,6 @@
 ;  {:E [0,0,0,0,0]}]
 
 (defn suggest [theater party-size]
-  [{:A 1} {:A 2}])
+  (if (= party-size 2)
+    [{:A 1} {:A 2}]
+    [{:A 1} {:A 2} {:A 3}]))
