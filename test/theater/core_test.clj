@@ -45,4 +45,15 @@
                     (let [theater [[:A [:occupied :occupied]]
                                    [:B [:free :free]]
                                    [:C [:free :free]]]]
-                      (suggest theater 2)) => [(->Seat :B 1) (->Seat :B 2)])))
+                      (suggest theater 2)) => [(->Seat :B 1) (->Seat :B 2)])
+              (fact "when party size smaller than free seats prefers seats nearer the middle of a row"
+                    (let [theater [[:A [:free :free :free :free]]
+                                   [:B [:free :free :free :free]]]]
+                      (suggest theater 2)) => [(->Seat :A 2) (->Seat :A 3)]
+                    (let [theater [[:A [:free :occupied :occupied :occupied :free]]
+                                   [:B [:occupied :free :free :free :occupied]]]]
+                      (suggest theater 3)) => [(->Seat :B 2) (->Seat :B 3) (->Seat :B 4)]
+                    (let [theater [[:A [:free :occupied :free :occupied :free]]
+                                   [:B [:free :occupied :free :occupied :free]]
+                                   [:C [:free :occupied :free :occupied :free]]]]
+                      (suggest theater 3)) => [(->Seat :A 3) (->Seat :B 3) (->Seat :C 3)])))

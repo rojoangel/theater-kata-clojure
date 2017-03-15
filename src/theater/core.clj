@@ -1,8 +1,10 @@
-(ns theater.core)
+(ns theater.core
+  (:require [clojure.math.numeric-tower :as math]))
 
 (defrecord Seat [row number])
 
 (defrecord SeatAvailability [seat status])
+
 ; a theater is represented as a list of rows represented by letters
 ; (the lower the letter, the closest to the front)
 ; with the available seats marked with :free,
@@ -14,7 +16,7 @@
 ;  [:D [:free :free :free :free :free]],
 ;  [:E [:free :free :free :free :free]]]
 
-(defn- row->letter [row]
+(defn row->letter [row]
   (first row))
 
 (defn- row->availability [row]
@@ -44,7 +46,13 @@
 (defn- theater->available-seats [theater]
   (map :seat (filter available? (theater->seat-availability theater))))
 
+(defn- seat->distance-middle [seat theater]
+  (let [seat-row (first (filter #(= (:row seat) (row->letter %)) theater))
+        row-size (count (second seat-row))
+        row-middle (/ (inc row-size) 2)]
+    (math/abs (- (:number seat) row-middle))))
+
 (defn suggest [theater party-size]
   (let [available-seats (theater->available-seats theater)]
     (when (>= (count available-seats) party-size)
-      (take party-size available-seats))))
+      (sort-by (juxt :row :number) (take party-size (sort-by #(seat->distance-middle % theater) available-seats))))))
