@@ -57,10 +57,7 @@
   (math/abs (- (:number seat) (:number seat'))))
 
 (defn- seat->distance-middle [seat theater]
-  (let [seat-row (seat->row seat theater)
-        row-size (count (second seat-row))
-        row-middle (/ (inc row-size) 2)]
-    (math/abs (- (:number seat) row-middle))))
+  (distance seat (row->middle-seat (seat->row seat theater))))
 
 (defn suggest [theater party-size]
   (let [available-seats (theater->available-seats theater)]
