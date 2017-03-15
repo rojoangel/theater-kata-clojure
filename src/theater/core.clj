@@ -54,7 +54,7 @@
     (->Seat (row->letter row) middle-number)))
 
 (defn- seat->distance-middle [seat theater]
-  (let [seat-row (first (filter #(= (:row seat) (row->letter %)) theater))
+  (let [seat-row (seat->row seat theater)
         row-size (count (second seat-row))
         row-middle (/ (inc row-size) 2)]
     (math/abs (- (:number seat) row-middle))))
