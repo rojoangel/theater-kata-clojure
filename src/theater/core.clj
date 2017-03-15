@@ -27,4 +27,5 @@
     (map vector seat-letters seat-nums)))
 
 (defn suggest [theater party-size]
-  (row->seats (first theater)))
+  (let [row-seats (row->seats (first theater))]
+    (map first (filter #(= :free (second %)) (map vector row-seats (row->seat-availability (first theater)))))))
