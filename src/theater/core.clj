@@ -41,5 +41,9 @@
 (defn- available? [seat-availabilty]
   (= :free (:status seat-availabilty)))
 
-(defn suggest [theater party-size]
+(defn- theater->available-seats [theater]
   (map :seat (filter available? (theater->seat-availability theater))))
+
+(defn suggest [theater party-size]
+  (let [available-seats (theater->available-seats theater)]
+    available-seats))
