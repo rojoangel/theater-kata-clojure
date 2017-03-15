@@ -15,11 +15,11 @@
 (defn- row->letter [row]
   (first row))
 
-(defn- row->seat-availability [row]
+(defn- row->availability [row]
   (second row))
 
 (defn- row->size [row]
-  (count (row->seat-availability row)))
+  (count (row->availability row)))
 
 (defn- row->seats [row]
   (let [row-size (row->size row)
@@ -32,4 +32,4 @@
 
 (defn suggest [theater party-size]
   (let [theater-seats (theater->seats theater)]
-    (map first (filter #(= :free (second %)) (map vector theater-seats (flatten (map row->seat-availability theater)))))))
+    (map first (filter #(= :free (second %)) (map vector theater-seats (flatten (map row->availability theater)))))))
