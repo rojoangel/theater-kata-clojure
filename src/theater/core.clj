@@ -1,6 +1,8 @@
 (ns theater.core)
 
 (defrecord Seat [row number])
+
+(defrecord SeatAvailability [seat status])
 ; a theater is represented as a list of rows represented by letters
 ; (the lower the letter, the closest to the front)
 ; with the available seats marked with :free,
@@ -34,10 +36,10 @@
   (flatten (map row->availability theater)))
 
 (defn- theater->seat-availability [theater]
-  (map vector (theater->seats theater) (theater->availabilty theater)))
+  (map ->SeatAvailability (theater->seats theater) (theater->availabilty theater)))
 
 (defn- available? [seat-availabilty]
-  (= :free (second seat-availabilty)))
+  (= :free (:status seat-availabilty)))
 
 (defn suggest [theater party-size]
-  (map first (filter available? (theater->seat-availability theater))))
+  (map :seat (filter available? (theater->seat-availability theater))))
