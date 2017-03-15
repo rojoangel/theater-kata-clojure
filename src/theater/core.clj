@@ -27,6 +27,9 @@
         seat-letters (repeat row-size (row->letter row))]
     (map ->Seat seat-letters seat-nums)))
 
+(defn- theater->seats [theater]
+  (flatten (map row->seats theater)))
+
 (defn suggest [theater party-size]
-  (let [row-seats (map row->seats theater)]
-    (map first (filter #(= :free (second %)) (map vector (flatten row-seats) (flatten (map row->seat-availability theater)))))))
+  (let [theater-seats (theater->seats theater)]
+    (map first (filter #(= :free (second %)) (map vector theater-seats (flatten (map row->seat-availability theater)))))))
