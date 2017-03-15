@@ -46,4 +46,5 @@
 
 (defn suggest [theater party-size]
   (let [available-seats (theater->available-seats theater)]
-    available-seats))
+    (when (>= (count available-seats) party-size)
+      available-seats)))

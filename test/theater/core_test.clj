@@ -30,4 +30,11 @@
                       (suggest theater 1)) => [(->Seat :B 2)]
                     (let [theater [[:A [:occupied :occupied :occupied :occupied]]
                                    [:B [:occupied :free :free :occupied]]]]
-                      (suggest theater 2)) => [(->Seat :B 2) (->Seat :B 3)])))
+                      (suggest theater 2)) => [(->Seat :B 2) (->Seat :B 3)])
+              (fact "when party size greater than free seats suggest nothing"
+                    (let [theater [[:A [:occupied :occupied]]
+                                   [:B [:occupied :free]]]]
+                      (suggest theater 2)) => nil
+                    (let [theater [[:A [:occupied :occupied :occupied :occupied]]
+                                   [:B [:occupied :free :free :occupied]]]]
+                      (suggest theater 3)) => nil)))
