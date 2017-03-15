@@ -10,7 +10,7 @@
                     (let [theater [[:A [:free :free :free]]]]
                       (suggest theater 3)) => [(->Seat :A 1) (->Seat :A 2) (->Seat :A 3)]
                     (let [theater [[:A [:free :free :free :free]]]]
-                      (suggest theater 3)) => [(->Seat :A 1) (->Seat :A 2) (->Seat :A 3) (->Seat :A 4)])
+                      (suggest theater 4)) => [(->Seat :A 1) (->Seat :A 2) (->Seat :A 3) (->Seat :A 4)])
               (fact "when party size equals free seats count seats booked by another customer are not offered"
                     (let [theater [[:A [:occupied :free]]]]
                       (suggest theater 1)) => [(->Seat :A 2)]
@@ -37,4 +37,12 @@
                       (suggest theater 2)) => nil
                     (let [theater [[:A [:occupied :occupied :occupied :occupied]]
                                    [:B [:occupied :free :free :occupied]]]]
-                      (suggest theater 3)) => nil)))
+                      (suggest theater 3)) => nil)
+              (fact "when party size smaller than free seats prefers seats nearer the front"
+                    (let [theater [[:A [:free :free]]
+                                   [:B [:free :free]]]]
+                      (suggest theater 2)) => [(->Seat :A 1) (->Seat :A 2)]
+                    (let [theater [[:A [:occupied :occupied]]
+                                   [:B [:free :free]]
+                                   [:C [:free :free]]]]
+                      (suggest theater 2)) => [(->Seat :B 1) (->Seat :B 2)])))
