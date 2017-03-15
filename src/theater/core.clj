@@ -1,5 +1,6 @@
 (ns theater.core)
 
+(defrecord Seat [row number])
 ; a theater is represented as a list of rows represented by letters
 ; (the lower the letter, the closest to the front)
 ; with the available seats marked with :free,
@@ -24,8 +25,8 @@
   (let [row-size (row->size row)
         seat-nums (range 1 (inc row-size))
         seat-letters (repeat row-size (row->letter row))]
-    (map vector seat-letters seat-nums)))
+    (map ->Seat seat-letters seat-nums)))
 
 (defn suggest [theater party-size]
-  (let [row-seats (row->seats (first theater))]
-    (map first (filter #(= :free (second %)) (map vector row-seats (row->seat-availability (first theater)))))))
+  (let [row-seats (map row->seats theater)]
+    (map first (filter #(= :free (second %)) (map vector (flatten row-seats) (flatten (map row->seat-availability theater)))))))
