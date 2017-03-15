@@ -36,5 +36,8 @@
 (defn- theater->seat-availability [theater]
   (map vector (theater->seats theater) (theater->availabilty theater)))
 
+(defn- available? [seat-availabilty]
+  (= :free (second seat-availabilty)))
+
 (defn suggest [theater party-size]
-  (map first (filter #(= :free (second %)) (theater->seat-availability theater))))
+  (map first (filter available? (theater->seat-availability theater))))
