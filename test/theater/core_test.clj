@@ -56,4 +56,8 @@
                     (let [theater [[:A [:free :occupied :free :occupied :free]]
                                    [:B [:free :occupied :free :occupied :free]]
                                    [:C [:free :occupied :free :occupied :free]]]]
-                      (suggest theater 3)) => [(->Seat :A 3) (->Seat :B 3) (->Seat :C 3)])))
+                      (suggest theater 3)) => [(->Seat :A 3) (->Seat :B 3) (->Seat :C 3)]
+                    (let [theater [[:A [:free :free :occupied :free :free]]
+                                   [:B [:free :free :occupied :free :free]]
+                                   [:C [:free :free :occupied :free :free]]]]
+                      (suggest theater 4)) => [(->Seat :A 2) (->Seat :A 4) (->Seat :B 2) (->Seat :B 4)])))
