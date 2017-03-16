@@ -1,6 +1,8 @@
 (ns theater.core
   (:require [clojure.math.numeric-tower :as math]))
 
+(defrecord Row [letter availability])
+
 (defrecord Seat [row number])
 
 (defrecord SeatAvailability [seat status])
@@ -17,10 +19,10 @@
 ;  [:E [:free :free :free :free :free]]]
 
 (defn row->letter [row]
-  (first row))
+  (:letter row))
 
 (defn- row->availability [row]
-  (second row))
+  (:availability row))
 
 (defn- row->size [row]
   (count (row->availability row)))
