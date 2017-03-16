@@ -49,7 +49,8 @@
   (map :seat (filter available? (theater->seat-availability theater))))
 
 (defn- seat->row [seat theater]
-  (first (filter #(= (:row seat) (row->letter %)) theater)))
+  (let [[row] (filter #(= (:row seat) (row->letter %)) theater)]
+    row))
 
 (defn- row->middle-seat [row]
   (let [middle-number (/ (inc (row->size row)) 2)]
